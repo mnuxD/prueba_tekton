@@ -3,11 +3,17 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --tekton: #356c75;
+  --tekton-hover: #264f55;
+  --tekton-active: #1d3c42;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-tekton: var(--tekton);
+  --color-tekton-hover: var(--tekton-hover);
+  --color-tekton-active: var(--tekton-active);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
