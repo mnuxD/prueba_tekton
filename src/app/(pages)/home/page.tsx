@@ -7,7 +7,16 @@ import { useItems } from "@/hooks";
 
 const HomePage: React.FC = () => {
   const [limit, setLimit] = useState(2000);
-  const { items, loading, error, refetch } = useItems(limit);
+  const {
+    items,
+    isLoading,
+    error,
+    refetch,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    totalCards,
+  } = useItems(limit);
 
   const limitOptions = [
     { value: 1000, label: "1000 cartas" },
@@ -27,14 +36,16 @@ const HomePage: React.FC = () => {
           <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
             Magic: The Gathering Cards
           </h2>
-          {!loading && (
-            <p className="text-gray-600 text-sm md:text-base mt-1">
-              Mostrando {items.length} cartas
-            </p>
+          {!isLoading && (
+            <div className="flex flex-col gap-1 mt-1">
+              <p className="text-gray-600 text-sm md:text-base">
+                Mostrando {items.length} de {Math.min(limit, totalCards)} cartas
+              </p>
+            </div>
           )}
         </div>
 
-        {!loading && (
+        {!isLoading && (
           <Select
             id="limit-select"
             label="Cantidad de cartas:"
@@ -45,7 +56,7 @@ const HomePage: React.FC = () => {
         )}
       </div>
 
-      {loading && (
+      {isLoading && (
         <Card className="py-12">
           <Spinner size="lg" />
           <p className="text-center text-gray-600 mt-4">Cargando</p>
@@ -69,15 +80,20 @@ const HomePage: React.FC = () => {
         </Card>
       )}
 
-      {!loading && !error && items.length > 0 && (
+      {!isLoading && !error && items.length > 0 && (
         <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg shadow-md p-4 flex-1 flex flex-col overflow-hidden">
           <div className="flex-1 overflow-hidden">
-            <ItemList items={items} />
+            <ItemList
+              items={items}
+              fetchNextPage={fetchNextPage}
+              hasNextPage={hasNextPage}
+              isFetchingNextPage={isFetchingNextPage}
+            />
           </div>
         </div>
       )}
 
-      {!loading && !error && items.length === 0 && (
+      {!isLoading && !error && items.length === 0 && (
         <Card className="py-12 text-center">
           <p className="text-gray-600">No hay cartas para mostrar</p>
         </Card>
