@@ -1,0 +1,7 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "unset NODE_AUTH_TOKEN NPM_TOKEN NPM_AUTH_TOKEN; NPM_CONFIG_USERCONFIG=/dev/null NPM_CONFIG_REGISTRY=https://registry.npmjs.org/ NPM_CONFIG_ALWAYS_AUTH=false npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "unset NODE_AUTH_TOKEN NPM_TOKEN NPM_AUTH_TOKEN; NPM_CONFIG_USERCONFIG=/dev/null NPM_CONFIG_REGISTRY=https://registry.npmjs.org/ NPM_CONFIG_ALWAYS_AUTH=false npm ci --no-audit --no-fund",
+  "outputDirectory": ".next"
+}
