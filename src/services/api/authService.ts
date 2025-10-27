@@ -19,6 +19,7 @@ const generateToken = (): string => {
 };
 
 class AuthService {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async login(email: string, password: string): Promise<AuthResponse> {
     await simulateNetworkDelay();
 

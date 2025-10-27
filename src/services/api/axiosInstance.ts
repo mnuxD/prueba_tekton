@@ -42,6 +42,7 @@ const createAxiosInstance = (): AxiosInstance => {
 
       if (error.response) {
         apiError.message =
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (error.response.data as any)?.message || error.message;
         apiError.status = error.response.status;
 
