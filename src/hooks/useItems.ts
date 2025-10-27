@@ -4,7 +4,7 @@ import { getCards } from "@/services/api/cards";
 
 interface UseItemsReturn {
   items: Item[];
-  isLoading: boolean;
+  loading: boolean;
   error: string | null;
   refetch: () => void;
 }
@@ -13,6 +13,7 @@ export const useItems = (limit: number = 2000): UseItemsReturn => {
   const {
     data: items = [],
     isLoading,
+    isFetching,
     error,
     refetch,
   } = useQuery({
@@ -22,9 +23,11 @@ export const useItems = (limit: number = 2000): UseItemsReturn => {
     gcTime: 30 * 60 * 1000,
   });
 
+  const loading = isLoading || isFetching;
+
   return {
     items,
-    isLoading,
+    loading,
     error: error?.message || null,
     refetch,
   };

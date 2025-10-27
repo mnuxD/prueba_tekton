@@ -4,12 +4,12 @@ const simulateNetworkDelay = (ms: number = 1000): Promise<void> => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
-const generateToken = (): string => {
+const generateToken = (email: string): string => {
   const header = btoa(JSON.stringify({ alg: "HS256", typ: "JWT" }));
   const payload = btoa(
     JSON.stringify({
       sub: "1234567890",
-      email: "user@tekton.com",
+      email,
       iat: Date.now(),
       exp: Date.now() + 86400000, // 24 horas
     })
@@ -29,7 +29,7 @@ class AuthService {
     //   password,
     // });
 
-    const token = generateToken();
+    const token = generateToken(email);
     const user: User = {
       id: "1",
       email: email,

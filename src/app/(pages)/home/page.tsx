@@ -1,13 +1,24 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { ItemList } from "@/components/features";
-import { Spinner, Card, Button } from "@/components/common";
+import { Spinner, Card, Select } from "@/components/common";
 import { useItems } from "@/hooks";
-import Image from "next/image";
 
 const HomePage: React.FC = () => {
-  const { items, isLoading, error, refetch } = useItems(2000);
+  const [limit, setLimit] = useState(2000);
+  const { items, loading, error, refetch } = useItems(limit);
+
+  const limitOptions = [
+    { value: 1000, label: "1000 cartas" },
+    { value: 2000, label: "2000 cartas" },
+    { value: 5000, label: "5000 cartas" },
+    { value: 10000, label: "10000 cartas" },
+  ];
+
+  const handleLimitChange = (value: string) => {
+    setLimit(Number(value));
+  };
 
   return (
     <div className="space-y-4 h-full flex flex-col">
@@ -16,26 +27,25 @@ const HomePage: React.FC = () => {
           <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
             Magic: The Gathering Cards
           </h2>
-          {!isLoading && (
+          {!loading && (
             <p className="text-gray-600 text-sm md:text-base mt-1">
               Mostrando {items.length} cartas
             </p>
           )}
         </div>
 
-        {!isLoading && (
-          <Button
-            onClick={refetch}
-            variant="secondary"
-            className="flex items-center gap-2"
-          >
-            <Image src="/refresh.svg" alt="Refresh" width={15} height={15} />{" "}
-            Recargar
-          </Button>
+        {!loading && (
+          <Select
+            id="limit-select"
+            label="Cantidad de cartas:"
+            value={limit.toString()}
+            onChange={handleLimitChange}
+            options={limitOptions}
+          />
         )}
       </div>
 
-      {isLoading && (
+      {loading && (
         <Card className="py-12">
           <Spinner size="lg" />
           <p className="text-center text-gray-600 mt-4">Cargando</p>
@@ -59,7 +69,7 @@ const HomePage: React.FC = () => {
         </Card>
       )}
 
-      {!isLoading && !error && items.length > 0 && (
+      {!loading && !error && items.length > 0 && (
         <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg shadow-md p-4 flex-1 flex flex-col overflow-hidden">
           <div className="flex-1 overflow-hidden">
             <ItemList items={items} />
@@ -67,7 +77,7 @@ const HomePage: React.FC = () => {
         </div>
       )}
 
-      {!isLoading && !error && items.length === 0 && (
+      {!loading && !error && items.length === 0 && (
         <Card className="py-12 text-center">
           <p className="text-gray-600">No hay cartas para mostrar</p>
         </Card>
